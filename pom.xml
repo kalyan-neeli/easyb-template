@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <!-- Model Version -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.schedef.coding.bdd</groupId>
+    <artifactId>easyb-template</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
+        <version.groovy>1.8.4</version.groovy>
+        <version.easyb>0.9.7</version.easyb>
+        <version.maven.easyb.plugin>0.9.7-1</version.maven.easyb.plugin>
+		<version.junit>4.8.2</version.junit>
+        <version.fest.assert>1.4</version.fest.assert>
+        <version.maven.compiler>2.3.2</version.maven.compiler>
+        <version.groovy.eclipse.compiler>2.6.0-01</version.groovy.eclipse.compiler>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>${version.groovy}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.easyb</groupId>
+            <artifactId>easyb</artifactId>
+            <version>${version.easyb}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy-all</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-assert</artifactId>
+            <version>${version.fest.assert}</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.maven.compiler}</version>
+                <configuration>
+                    <compilerId>groovy-eclipse-compiler</compilerId>
+                    <verbose>true</verbose>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-eclipse-compiler</artifactId>
+                        <version>${version.groovy.eclipse.compiler}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.easyb</groupId>
+                <artifactId>maven-easyb-plugin</artifactId>
+                <version>${version.maven.easyb.plugin}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <easybTestDirectory>${basedir}/src/test/groovy</easybTestDirectory>
+                    <xmlReport>${project.build.directory}/easyb/easyb-report.xml</xmlReport>
+                    <storyType>html</storyType>
+                    <storyReport>${project.build.directory}/easyb/site/index.html</storyReport>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+				  <execution>
+					<id>add-source</id>
+					<phase>generate-sources</phase>
+					<goals>
+					  <goal>add-source</goal>
+					</goals>
+					<configuration>
+					  <sources>
+						<source>src/main/groovy</source>
+					  </sources> 
+					</configuration>
+				  </execution>
+				  <execution>
+					<id>add-test-source</id>
+					<phase>generate-test-sources</phase>
+					<goals>
+					  <goal>add-test-source</goal>
+					</goals>
+					<configuration>
+					  <sources>
+						<source>src/test/groovy</source>
+					  </sources>
+					</configuration>
+				  </execution>    
+				</executions>
+			  </plugin>
+        </plugins>
+    </build>
+
+</project>
